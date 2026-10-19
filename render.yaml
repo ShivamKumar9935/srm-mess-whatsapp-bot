@@ -1,0 +1,37 @@
+
+envVarGroups:
+  - name: srm-mess-secrets
+    envVars:
+      - key: WHATSAPP_ACCESS_TOKEN
+        sync: false
+      - key: WHATSAPP_PHONE_NUMBER_ID
+        value: "1287866837751487"
+      - key: WHATSAPP_TO
+        sync: false
+      - key: WHATSAPP_API_VERSION
+        value: "v23.0"
+      - key: WHATSAPP_TEMPLATE_NAME
+        value: "mess_meal_reminder"
+      - key: WHATSAPP_TEMPLATE_LANGUAGE
+        value: "en"
+      - key: TIMEZONE
+        value: "Asia/Kolkata"
+
+services:
+  - type: cron
+    name: srm-mess-main-meals
+    runtime: python
+    schedule: "0 2,11,14 * * *"
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
+    envVars:
+      - fromGroup: srm-mess-secrets
+
+  - type: cron
+    name: srm-mess-lunch
+    runtime: python
+    schedule: "30 6 * * *"
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
+    envVars:
+      - fromGroup: srm-mess-secrets
