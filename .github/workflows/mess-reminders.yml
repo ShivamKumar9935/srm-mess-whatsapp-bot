@@ -1,0 +1,85 @@
+
+name: SRM Mess WhatsApp Reminders
+
+on:
+  schedule:
+    - cron: "0 2 * * *"
+    - cron: "30 6 * * *"
+    - cron: "0 11 * * *"
+    - cron: "0 14 * * *"
+
+  workflow_dispatch:
+    inputs:
+      meal:
+        description: "Meal to send manually"
+        required: true
+        type: choice
+        options:
+          - breakfast
+          - lunch
+          - snacks
+          - dinner
+
+jobs:
+  send-reminder:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Send breakfast reminder
+        if: (github.event_name == 'schedule' && github.event.schedule == '0 2 * * *') || (github.event_name == 'workflow_dispatch' && inputs.meal == 'breakfast')
+        run: python main.py --meal breakfast
+        env:
+          WHATSAPP_ACCESS_TOKEN: ${{ secrets.WHATSAPP_ACCESS_TOKEN }}
+          WHATSAPP_TO: ${{ secrets.WHATSAPP_TO }}
+          WHATSAPP_PHONE_NUMBER_ID: "1287866837751487"
+          WHATSAPP_API_VERSION: "v23.0"
+          WHATSAPP_TEMPLATE_NAME: "mess_meal_reminder"
+          WHATSAPP_TEMPLATE_LANGUAGE: "en"
+          TIMEZONE: "Asia/Kolkata"
+
+      - name: Send lunch reminder
+        if: (github.event_name == 'schedule' && github.event.schedule == '30 6 * * *') || (github.event_name == 'workflow_dispatch' && inputs.meal == 'lunch')
+        run: python main.py --meal lunch
+        env:
+          WHATSAPP_ACCESS_TOKEN: ${{ secrets.WHATSAPP_ACCESS_TOKEN }}
+          WHATSAPP_TO: ${{ secrets.WHATSAPP_TO }}
+          WHATSAPP_PHONE_NUMBER_ID: "1287866837751487"
+          WHATSAPP_API_VERSION: "v23.0"
+          WHATSAPP_TEMPLATE_NAME: "mess_meal_reminder"
+          WHATSAPP_TEMPLATE_LANGUAGE: "en"
+          TIMEZONE: "Asia/Kolkata"
+
+      - name: Send snacks reminder
+        if: (github.event_name == 'schedule' && github.event.schedule == '0 11 * * *') || (github.event_name == 'workflow_dispatch' && inputs.meal == 'snacks')
+        run: python main.py --meal snacks
+        env:
+          WHATSAPP_ACCESS_TOKEN: ${{ secrets.WHATSAPP_ACCESS_TOKEN }}
+          WHATSAPP_TO: ${{ secrets.WHATSAPP_TO }}
+          WHATSAPP_PHONE_NUMBER_ID: "1287866837751487"
+          WHATSAPP_API_VERSION: "v23.0"
+          WHATSAPP_TEMPLATE_NAME: "mess_meal_reminder"
+          WHATSAPP_TEMPLATE_LANGUAGE: "en"
+          TIMEZONE: "Asia/Kolkata"
+
+      - name: Send dinner reminder
+        if: (github.event_name == 'schedule' && github.event.schedule == '0 14 * * *') || (github.event_name == 'workflow_dispatch' && inputs.meal == 'dinner')
+        run: python main.py --meal dinner
+        env:
+          WHATSAPP_ACCESS_TOKEN: ${{ secrets.WHATSAPP_ACCESS_TOKEN }}
+          WHATSAPP_TO: ${{ secrets.WHATSAPP_TO }}
+          WHATSAPP_PHONE_NUMBER_ID: "1287866837751487"
+          WHATSAPP_API_VERSION: "v23.0"
+          WHATSAPP_TEMPLATE_NAME: "mess_meal_reminder"
+          WHATSAPP_TEMPLATE_LANGUAGE: "en"
+          TIMEZONE: "Asia/Kolkata"
