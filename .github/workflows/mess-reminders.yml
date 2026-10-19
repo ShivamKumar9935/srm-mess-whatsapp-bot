@@ -36,6 +36,11 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r requirements.txt
+        
+      - name: Verify 11:25 PM scheduled run
+        if: github.event_name == 'schedule' && github.event.schedule == '55 17 * * *'
+        run: echo "Good night! GitHub Actions is running at the scheduled test time."
+
 
       - name: Send breakfast reminder
         if: (github.event_name == 'schedule' && github.event.schedule == '0 2 * * *') || (github.event_name == 'workflow_dispatch' && inputs.meal == 'breakfast')
