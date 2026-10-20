@@ -2,6 +2,7 @@
 name: SRM Mess WhatsApp Reminders
 
 on:
+# Daily SRM mess reminders
   schedule:
     - cron: "0 2 * * *"
     - cron: "30 6 * * *"
