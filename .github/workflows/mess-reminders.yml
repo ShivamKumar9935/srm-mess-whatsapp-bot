@@ -2,13 +2,15 @@
 name: SRM Mess WhatsApp Reminders
 
 on:
-# Daily SRM mess reminders
   schedule:
-    - cron: "0 2 * * *"
-    - cron: "30 6 * * *"
-    - cron: "0 11 * * *"
-    - cron: "0 14 * * *"
-    - cron: "55 17 * * *"
+    - cron: "35 7 * * *"
+      timezone: "Asia/Kolkata"
+    - cron: "5 12 * * *"
+      timezone: "Asia/Kolkata"
+    - cron: "35 16 * * *"
+      timezone: "Asia/Kolkata"
+    - cron: "35 19 * * *"
+      timezone: "Asia/Kolkata"
 
   workflow_dispatch:
     inputs:
@@ -21,7 +23,6 @@ on:
           - lunch
           - snacks
           - dinner
-
 jobs:
   send-reminder:
     runs-on: ubuntu-latest
